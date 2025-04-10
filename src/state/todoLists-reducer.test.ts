@@ -1,6 +1,6 @@
 import { v1 } from "uuid";
 import { addTodolistAC, changeTodolistFiltereAC, changeTodolistTitleAC, deleteTodolistAC, toDoListsReducer } from "./todoLists-reducer";
-import { TodolistType } from "../App";
+import { TodolistType } from "../AppWithRedux";
 
 test('shoud delete list', () => {
     let tid1 = v1()

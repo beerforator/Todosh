@@ -1,5 +1,4 @@
-import { error } from "console"
-import { FilterParameterType, TodolistType } from "../App"
+import { FilterParameterType, TodolistType } from "../AppWithRedux"
 import { v1 } from "uuid"
 
 export type DeleteTodolistActionType = {
@@ -27,45 +26,57 @@ type ChangeTodolistFilterActionType = {
 
 export type ActionsType = DeleteTodolistActionType | AddTodolistActionType | ChangeTodolistTitleActionType | ChangeTodolistFilterActionType
 
-export const toDoListsReducer = (state: Array<TodolistType>, action: ActionsType): Array<TodolistType> => {
+export let tid1 = v1()
+export let tid2 = v1()
+
+const initialState: Array<TodolistType> = [
+    { id: tid1, title: "Study", filterParameter: "all" },
+    { id: tid2, title: "Movies", filterParameter: "all" }
+]
+
+export const toDoListsReducer = (state: Array<TodolistType> = initialState, action: ActionsType): Array<TodolistType> => {
     switch (action.type) {
         case 'LIST-DELETE': {
-            const todolistsAfterRemoved = state.filter((l) => l.id !== action.id)
+            const stateCopy = [...state]
+            const todolistsAfterRemoved = stateCopy.filter((l) => l.id !== action.id)
             if (todolistsAfterRemoved) {
                 return todolistsAfterRemoved
             }
-            return state
+            return stateCopy
         }
         case 'LIST-ADD': {
+            const stateCopy = [...state]
             let newTodolist: TodolistType = {
                 id: action.id_list,
                 title: action.title,
                 filterParameter: 'all'
             }
-            return [newTodolist, ...state]
+            return [newTodolist, ...stateCopy]
         }
         case 'LIST-CHANGE-TITLE': {
-            const todolistforchange = state.find((l) => l.id === action.id)
+            const stateCopy = [...state]
+            const todolistforchange = stateCopy.find((l) => l.id === action.id)
             if (todolistforchange) {
                 todolistforchange.title = action.title
-                return [...state]
+                return [...stateCopy]
             }
-            return state
+            return stateCopy
         }
         case 'LIST-CHANGE-FILTER': {
-            const filteringList = state.find((tl) => {
+            const stateCopy = [...state]
+            const filteringList = stateCopy.find((tl) => {
                 if (tl.id === action.id) {
                     return tl
                 }
             })
             if (filteringList) {
                 filteringList.filterParameter = action.filter
-                return [...state]
+                return [...stateCopy]
             }
-            return state
+            return stateCopy
         }
         default:
-            throw new Error(`I haven't this action`)
+            return state
     }
 }
 

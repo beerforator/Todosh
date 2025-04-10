@@ -1,6 +1,5 @@
 import { Button, Icon, IconButton, TextField } from "@mui/material"
 import { useState } from "react"
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Add } from "@mui/icons-material";
 
 type AddItemInputProps = {

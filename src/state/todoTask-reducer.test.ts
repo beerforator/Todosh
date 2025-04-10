@@ -1,6 +1,5 @@
-import { v1 } from "uuid";
-import { addTodolistAC, changeTodolistFiltereAC, changeTodolistTitleAC, deleteTodolistAC, toDoListsReducer } from "./todoLists-reducer";
-import { TodolistsObjType, TodolistType } from "../App";
+import { addTodolistAC, deleteTodolistAC } from "./todoLists-reducer";
+import { TodolistsObjType } from "../AppWithRedux";
 import { deleteTaskAC, addTaskAC, tasksReducer, changeTaskTitleAC, changeTaskStatusAC } from "./todoTask-reducer";
 
 test('shoud delete task', () => {

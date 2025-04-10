@@ -1,7 +1,6 @@
-import { error } from "console"
-import { FilterParameterType, TodolistsObjType, TodolistType } from "../App"
+import { TodolistsObjType } from "../AppWithRedux"
 import { v1 } from "uuid"
-import { AddTodolistActionType, DeleteTodolistActionType,  } from "./todoLists-reducer"
+import { AddTodolistActionType, DeleteTodolistActionType, tid1, tid2, } from "./todoLists-reducer"
 
 type DeleteTaskActionType = {
     type: "TASK-DELETE"
@@ -32,7 +31,21 @@ type ChangeTaskStatusActionType = {
 export type ActionsType = DeleteTaskActionType | AddTaskActionType
     | ChangeTaskTitleActionType | ChangeTaskStatusActionType | AddTodolistActionType | DeleteTodolistActionType
 
-export const tasksReducer = (state: TodolistsObjType, action: ActionsType): TodolistsObjType => {
+const initialState: TodolistsObjType = {
+    [tid1]: [
+        { id: v1(), title: 'TMP', isDone: true },
+        { id: v1(), title: 'Networks Safety', isDone: false },
+        { id: v1(), title: 'Filosofy', isDone: true },
+        { id: v1(), title: 'Math', isDone: true }
+    ],
+    [tid2]: [
+        { id: v1(), title: 'Stalker', isDone: false },
+        { id: v1(), title: 'Zhmurki', isDone: true },
+        { id: v1(), title: 'Shameless', isDone: false }
+    ]
+}
+
+export const tasksReducer = (state: TodolistsObjType = initialState, action: ActionsType): TodolistsObjType => {
     switch (action.type) {
         case 'TASK-DELETE': {
             const stateCopy = { ...state }
@@ -82,7 +95,7 @@ export const tasksReducer = (state: TodolistsObjType, action: ActionsType): Todo
             return stateCopy
         }
         default:
-            throw new Error(`I haven't this action`)
+            return state
     }
 }
 

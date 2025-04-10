@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler, useState } from 'react';
-import { FilterParameterType } from './App';
+import { FilterParameterType } from './AppWithRedux';
 import AddItemInput from './AddItemInput';
 import EditableSpan from './EditableSpan';
 import { Button, Checkbox, IconButton } from '@mui/material';
