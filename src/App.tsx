@@ -4,6 +4,8 @@ import './App.css';
 import TaskManager, { TaskArr } from './Task-manager'
 import AddItemInput from './AddItemInput';
 import { v1 } from 'uuid';
+import { AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 
 export type FilterParameterType = 'all' | 'active' | 'completed'
 
@@ -52,7 +54,7 @@ function App() {
 
   function addItem(tlId: string, taskTitle: string) {
     let newTask = { id: v1(), title: taskTitle, isDone: false }
-    todolistsObj[tlId] = [newTask, ...todolistsObj[tlId]]
+    todolistsObj[tlId] = [...todolistsObj[tlId], newTask]
     setTodolistsObj({ ...todolistsObj })
   }
 
@@ -114,36 +116,61 @@ function App() {
 
   return (
     <div className='App'>
-      <AddItemInput
-        addItem={addList}
-      />
-      {todolists.map((tl) => {
-        let currentTodolist = todolistsObj[tl.id]
-        let exitTasksStud = currentTodolist
-        if (tl.filterParameter === 'active') {
-          exitTasksStud = currentTodolist.filter(t => t.isDone === false)
-        }
-        if (tl.filterParameter === 'completed') {
-          exitTasksStud = currentTodolist.filter(t => t.isDone === true)
-        }
-
-        return (
-          <TaskManager
-            key={tl.id}
-            id={tl.id}
-            title={tl.title}
-            tasks={exitTasksStud}
-            deleteTask={deleteTask}
-            filterTasks={filterTasks}
-            addItem={addItem}
-            changeTaskStatus={changeTaskStatus}
-            changeTaskTitle={changeTaskTitle}
-            changeTodolistTitle={changeTodolistTitle}
-            filterParameter={tl.filterParameter}
-            deleteList={deleteList}
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Simle and small ToDO yet
+          </Typography>
+          <Button color="inherit">Login</Button>
+        </Toolbar>
+      </AppBar>
+      <Container fixed>
+        <Grid container style={{padding: "30px 0"}}> 
+          <AddItemInput
+            addItem={addList}
           />
-        )
-      })}
+        </Grid>
+        <Grid container spacing={10}>
+          {todolists.map((tl) => {
+            let currentTodolist = todolistsObj[tl.id]
+            let exitTasksStud = currentTodolist
+            if (tl.filterParameter === 'active') {
+              exitTasksStud = currentTodolist.filter(t => t.isDone === false)
+            }
+            if (tl.filterParameter === 'completed') {
+              exitTasksStud = currentTodolist.filter(t => t.isDone === true)
+            }
+
+            return (
+              <Paper style={{padding: "20px"}}>
+                <TaskManager
+                  key={tl.id}
+                  id={tl.id}
+                  title={tl.title}
+                  tasks={exitTasksStud}
+                  deleteTask={deleteTask}
+                  filterTasks={filterTasks}
+                  addItem={addItem}
+                  changeTaskStatus={changeTaskStatus}
+                  changeTaskTitle={changeTaskTitle}
+                  changeTodolistTitle={changeTodolistTitle}
+                  filterParameter={tl.filterParameter}
+                  deleteList={deleteList}
+                />
+              </Paper>
+            )
+          })}
+        </Grid>
+      </Container>
     </div>
   );
 }

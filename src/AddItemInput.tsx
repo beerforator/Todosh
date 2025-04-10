@@ -1,4 +1,7 @@
+import { Button, Icon, IconButton, TextField } from "@mui/material"
 import { useState } from "react"
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { Add } from "@mui/icons-material";
 
 type AddItemInputProps = {
     addItem: (taskTitle: string) => void
@@ -37,14 +40,16 @@ function AddItemInput(props: AddItemInputProps) {
 
     return (
         <div>
-            <input
+            <TextField variant="outlined" label="Enter title" size="small"
                 value={newTaskTitle}
                 onChange={onNewTitleChangeHandler}
                 onKeyDown={onKeyDownHandler}
-                className={error ? "error_input" : ""}
+                error={!!error}
+                helperText={error}
             />
-            <button onClick={onClickAddTask}>+</button>
-            {error && <div className="error_message">{error}</div>}
+            <IconButton onClick={onClickAddTask} >
+                <Add />
+            </IconButton>
         </div>
     )
 }

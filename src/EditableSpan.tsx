@@ -1,3 +1,4 @@
+import { TextField } from "@mui/material"
 import { useState } from "react"
 
 type EditableSpanPropsType = {
@@ -14,7 +15,7 @@ function EditableSpan(props: EditableSpanPropsType) {
             setNewTaskTitle(props.title)
             setEditMode(true)
         } else {
-            setEditMode(false)    
+            setEditMode(false)
             props.onChange(newTaskTitle)
         }
     }
@@ -25,14 +26,11 @@ function EditableSpan(props: EditableSpanPropsType) {
 
     if (editMode) {
         return (
-            <div onBlur={changeEditMode}>
-                <input
-                    onChange={onNewTitleChangeHandler}
-                    value={newTaskTitle}
-                    autoFocus
-                />
-                <button onClick={() => { }}>accept</button>
-            </div>
+            <TextField variant="standard" size="small" onBlur={changeEditMode}
+                onChange={onNewTitleChangeHandler}
+                value={newTaskTitle}
+                autoFocus
+            />
         )
     } else {
         return (
