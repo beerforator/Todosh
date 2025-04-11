@@ -1,15 +1,15 @@
-import './App.css';
-
-import TaskManager, { TaskArr } from './Task-manager'
-import AddItemInput from './AddItemInput';
-import { v1 } from 'uuid';
-import { AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import { addTodolistAC, changeTodolistFiltereAC, changeTodolistTitleAC, deleteTodolistAC, toDoListsReducer } from './state/todoLists-reducer';
-import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC, tasksReducer } from './state/todoTask-reducer';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+
+import './App.css';
+import TaskManager, { TaskArr } from './Task-manager'
+import AddItemInput from './AddItemInput';
+import { addTodolistAC, changeTodolistFiltereAC, changeTodolistTitleAC, deleteTodolistAC } from './state/todoLists-reducer';
+import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC } from './state/todoTask-reducer';
 import { AppRootState } from './state/store';
+
+import { AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 
 export type FilterParameterType = 'all' | 'active' | 'completed'
 

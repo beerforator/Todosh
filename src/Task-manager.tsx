@@ -1,7 +1,9 @@
-import React, { ChangeEventHandler, useState } from 'react';
+import React from 'react';
+
 import { FilterParameterType } from './AppWithRedux';
 import AddItemInput from './AddItemInput';
 import EditableSpan from './EditableSpan';
+
 import { Button, Checkbox, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 

@@ -1,5 +1,6 @@
-import { FilterParameterType, TodolistType } from "../AppWithRedux"
 import { v1 } from "uuid"
+
+import { FilterParameterType, TodolistType } from "../AppWithRedux"
 
 export type DeleteTodolistActionType = {
     type: "LIST-DELETE"
