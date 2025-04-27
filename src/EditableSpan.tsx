@@ -1,3 +1,5 @@
+import React, { useCallback } from "react"
+
 import { TextField } from "@mui/material"
 import { useState } from "react"
 
@@ -6,7 +8,9 @@ type EditableSpanPropsType = {
     onChange: (newTitle: string) => void
 }
 
-function EditableSpan(props: EditableSpanPropsType) {
+const EditableSpan = React.memo((props: EditableSpanPropsType) => {
+    console.log("Ed span")
+
     let [editMode, setEditMode] = useState<boolean>(false)
     let [newTaskTitle, setNewTaskTitle] = useState("")
 
@@ -37,6 +41,6 @@ function EditableSpan(props: EditableSpanPropsType) {
             <span onDoubleClick={changeEditMode}>{props.title}</span>
         )
     }
-}
+})
 
 export default EditableSpan

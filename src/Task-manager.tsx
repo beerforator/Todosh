@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { FilterParameterType } from './AppWithRedux';
 import AddItemInput from './AddItemInput';
 import EditableSpan from './EditableSpan';
-
-import { Button, Checkbox, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Button, Checkbox, IconButton } from '@mui/material';
+import TaskLine from './TaskLine';
 
 export type TaskArr = {
     id: string,
@@ -27,18 +27,29 @@ type TaskTitle = {
     deleteList: (tlId: string) => void
 }
 
-function TaskManager(props: TaskTitle) {
-    const onClickFilterAll = () => props.filterTasks(props.id, 'all')
-    const onClickFilterActive = () => props.filterTasks(props.id, 'active')
-    const onClickFilterCompleted = () => props.filterTasks(props.id, 'completed')
-    const onClickDeleteList = () => props.deleteList(props.id)
+const TaskManager = React.memo((props: TaskTitle) => {
+    console.log("Task Manager call --------------------")
 
-    const addItem = (title: string) => {
+    const onClickFilterAll = useCallback(() => props.filterTasks(props.id, 'all'), [props.filterTasks, props.id])
+    const onClickFilterActive = useCallback(() => props.filterTasks(props.id, 'active'), [props.filterTasks, props.id])
+    const onClickFilterCompleted = useCallback(() => props.filterTasks(props.id, 'completed'), [props.filterTasks, props.id])
+    const onClickDeleteList = useCallback(() => props.deleteList(props.id), [props.filterTasks, props.id])
+
+    const addItem = useCallback((title: string) => {
         props.addItem(props.id, title)
-    }
+    }, [])
 
-    const changeTodolistTitle = (title: string) => {
+    const changeTodolistTitle = useCallback((title: string) => {
         props.changeTodolistTitle(props.id, title)
+    }, [props.changeTodolistTitle, props.id])
+
+    let exitTasksStud = props.tasks
+
+    if (props.filterParameter === 'active') {
+        exitTasksStud = props.tasks.filter(t => t.isDone === false)
+    }
+    if (props.filterParameter === 'completed') {
+        exitTasksStud = props.tasks.filter(t => t.isDone === true)
     }
 
     return (
@@ -55,26 +66,16 @@ function TaskManager(props: TaskTitle) {
             <AddItemInput addItem={addItem} />
             <ul>
                 {
-                    props.tasks.map((t) => {
-                        const onClickDeleteTaskHandler = () => props.deleteTask(props.id, t.id)
-                        const onChangeTaskStatusHandler = (e: React.ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(props.id, t.id, e.currentTarget.checked)
-                        const onChangeTaskTitleHandler = (title: string) => props.changeTaskTitle(props.id, t.id, title)
-                        return (
-                            <li key={t.id} className={t.isDone ? "doned_task" : ""}>
-                                <Checkbox
-                                    checked={t.isDone}
-                                    onChange={onChangeTaskStatusHandler}
-                                />
-                                <EditableSpan
-                                    title={t.title}
-                                    onChange={onChangeTaskTitleHandler}
-                                />
-                                <IconButton aria-label="delete" onClick={onClickDeleteTaskHandler} size="small">
-                                    <DeleteIcon color="secondary" fontSize='small'/>
-                                </IconButton>
-                            </li>
-                        )
-                    })
+                    exitTasksStud.map((t) =>
+                        <TaskLine
+                            key={t.id}
+                            task={t}
+                            id_list={props.id}
+                            deleteTask={props.deleteTask}
+                            changeTaskStatus={props.changeTaskStatus}
+                            changeTaskTitle={props.changeTaskTitle}
+                        />
+                    )
                 }
             </ul>
             <div>
@@ -90,6 +91,6 @@ function TaskManager(props: TaskTitle) {
             </div>
         </div>
     )
-}
+})
 
 export default TaskManager

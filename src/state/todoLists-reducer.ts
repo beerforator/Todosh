@@ -64,6 +64,7 @@ export const toDoListsReducer = (state: Array<TodolistType> = initialState, acti
             return stateCopy
         }
         case 'LIST-CHANGE-FILTER': {
+            
             const stateCopy = [...state]
             const filteringList = stateCopy.find((tl) => {
                 if (tl.id === action.id) {

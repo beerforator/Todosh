@@ -11,11 +11,11 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
+// Раньше AppWithRedux был обернут в <React.StrictMode>
+
 root.render(
   <Provider store={store}>
-    <React.StrictMode>
-      <AppWithRedux />
-    </React.StrictMode>
+    <AppWithRedux />
   </Provider>
 );
 

@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import React, { useCallback } from 'react';
 
 import './App.css';
 import TaskManager, { TaskArr } from './Task-manager'
@@ -23,52 +24,54 @@ export type TodolistsObjType = {
   [key: string]: Array<TaskArr>
 }
 
-function AppWithRedux() {
-  const dispatchToRootReducer = useDispatch()
-  const lists = useSelector<AppRootState, Array<TodolistType>>(state => state.lists) 
-  const tasks = useSelector<AppRootState, TodolistsObjType>(state => state.tasks) 
+const AppWithRedux = React.memo(() => {
+  console.log("App call ###############################")
 
-  function deleteTask(id_list: string, id_task: string) {
+  const dispatchToRootReducer = useDispatch()
+  const lists = useSelector<AppRootState, Array<TodolistType>>(state => state.lists)
+  const tasks = useSelector<AppRootState, TodolistsObjType>(state => state.tasks)
+
+  const deleteTask = useCallback((id_list: string, id_task: string) => {
     const action = deleteTaskAC(id_list, id_task)
     dispatchToRootReducer(action)
-  }
+  }, [dispatchToRootReducer])
 
-  function addTask(id_list: string, title: string) {
+  const addTask = useCallback((id_list: string, title: string) => {
     const action = addTaskAC(id_list, title)
     dispatchToRootReducer(action)
-  }
+  }, [dispatchToRootReducer])
 
-  function changeTaskTitle(id_list: string, id_task: string, title: string) {
+  const changeTaskTitle = useCallback((id_list: string, id_task: string, title: string) => {
     const action = changeTaskTitleAC(id_list, id_task, title)
     dispatchToRootReducer(action)
-  }
+  }, [dispatchToRootReducer])
 
-  function changeTaskStatus(id_list: string, id_task: string, isDone: boolean) {
+  const changeTaskStatus = useCallback((id_list: string, id_task: string, isDone: boolean) => {
     const action = changeTaskStatusAC(id_list, id_task, isDone)
     dispatchToRootReducer(action)
-  }
+  }, [dispatchToRootReducer])
 
- 
 
-  function deleteList(id_list: string) {
+
+  const deleteList = useCallback((id_list: string) => {
     const action = deleteTodolistAC(id_list)
     dispatchToRootReducer(action)
-  }
+  }, [dispatchToRootReducer])
 
-  function addList(listTitle: string) {
+  const addList = useCallback((listTitle: string) => {
     const action = addTodolistAC(listTitle)
     dispatchToRootReducer(action)
-  }
+  }, [dispatchToRootReducer])
 
-  function changeTodolistTitle(id_list: string, title: string) {
+  const changeTodolistTitle = useCallback((id_list: string, title: string) => {
     const action = changeTodolistTitleAC(id_list, title)
     dispatchToRootReducer(action)
-  }
+  }, [dispatchToRootReducer])
 
-  function filterTasks(id_list: string, fparam: FilterParameterType) {
+  const filterTasks = useCallback((id_list: string, fparam: FilterParameterType) => {
     const action = changeTodolistFiltereAC(id_list, fparam)
     dispatchToRootReducer(action)
-  }
+  }, [dispatchToRootReducer])
 
   return (
     <div className='App'>
@@ -99,12 +102,6 @@ function AppWithRedux() {
           {lists.map((tl) => {
             let currentTodolist = tasks[tl.id]
             let exitTasksStud = currentTodolist
-            if (tl.filterParameter === 'active') {
-              exitTasksStud = currentTodolist.filter(t => t.isDone === false)
-            }
-            if (tl.filterParameter === 'completed') {
-              exitTasksStud = currentTodolist.filter(t => t.isDone === true)
-            }
 
             return (
               <Paper style={{ padding: "20px" }}>
@@ -129,6 +126,6 @@ function AppWithRedux() {
       </Container>
     </div>
   );
-}
+})
 
 export default AppWithRedux;
