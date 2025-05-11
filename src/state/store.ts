@@ -1,24 +1,23 @@
-import { combineReducers, createStore } from "redux";
+import { applyMiddleware, combineReducers, createStore } from "redux";
+import { thunk } from "redux-thunk";
 
-import { tasksReducer } from "./todoTask-reducer";
-import { toDoListsReducer } from "./todoLists-reducer";
+import { tasksReducer } from "./tasksSlice";
+import { todolistsReducer } from "./todolistsSlice";
+import { configureStore } from "@reduxjs/toolkit";
 
-export const rootReducer = combineReducers({
-    lists: toDoListsReducer,
-    tasks: tasksReducer
-})
+import { authReducer } from './authSlice'; // <-- Импорт
 
-// type AppRootState = {
-//     lists: Array<TodolistType>
-//     tasks: TodolistsObjType
-// }
-//             ||
-//             ||
-//             \/
+export const store = configureStore({
+    reducer: {
+        auth: authReducer,
+        lists: todolistsReducer,
+        tasks: tasksReducer // <-- ИСПОЛЬЗУЕМ НОВЫЙ
+    }
+});
 
-export type AppRootState = ReturnType<typeof rootReducer>
-
-export const store = createStore(rootReducer)
+export type AppRootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 // @ts-ignore
 window.store = store
+//createStore

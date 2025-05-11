@@ -1,6 +1,7 @@
 import { v1 } from "uuid"
 
 import { FilterParameterType, TodolistType } from "../AppWithRedux"
+import { UnknownAction } from "redux"
 
 export type DeleteTodolistActionType = {
     type: "LIST-DELETE"
@@ -35,50 +36,46 @@ const initialState: Array<TodolistType> = [
     { id: tid2, title: "Movies", filterParameter: "all" }
 ]
 
-export const toDoListsReducer = (state: Array<TodolistType> = initialState, action: ActionsType): Array<TodolistType> => {
+export const toDoListsReducer = (state: Array<TodolistType> = initialState, action: UnknownAction): Array<TodolistType> => {
     switch (action.type) {
         case 'LIST-DELETE': {
-            const stateCopy = [...state]
-            const todolistsAfterRemoved = stateCopy.filter((l) => l.id !== action.id)
-            if (todolistsAfterRemoved) {
-                return todolistsAfterRemoved
-            }
-            return stateCopy
+            // Используем type assertion 'as', чтобы получить доступ к полям
+            const specificAction = action as DeleteTodolistActionType;
+            const stateCopy = [...state];
+            const todolistsAfterRemoved = stateCopy.filter((l) => l.id !== specificAction.id);
+            // ...
+            return todolistsAfterRemoved ? todolistsAfterRemoved : stateCopy;
         }
         case 'LIST-ADD': {
-            const stateCopy = [...state]
+            const specificAction = action as AddTodolistActionType;
+            // ...
             let newTodolist: TodolistType = {
-                id: action.id_list,
-                title: action.title,
+                id: specificAction.id_list,
+                title: specificAction.title,
                 filterParameter: 'all'
             }
-            return [newTodolist, ...stateCopy]
+            return [newTodolist, ...state];
         }
         case 'LIST-CHANGE-TITLE': {
-            const stateCopy = [...state]
-            const todolistforchange = stateCopy.find((l) => l.id === action.id)
+            const specificAction = action as ChangeTodolistTitleActionType;
+            const todolistforchange = state.find((l) => l.id === specificAction.id);
             if (todolistforchange) {
-                todolistforchange.title = action.title
-                return [...stateCopy]
+                todolistforchange.title = specificAction.title;
+                return [...state]; // Нужно создать новый массив для иммутабельности
             }
-            return stateCopy
+            return state;
         }
         case 'LIST-CHANGE-FILTER': {
-            
-            const stateCopy = [...state]
-            const filteringList = stateCopy.find((tl) => {
-                if (tl.id === action.id) {
-                    return tl
-                }
-            })
+            const specificAction = action as ChangeTodolistFilterActionType;
+            const filteringList = state.find((tl) => tl.id === specificAction.id);
             if (filteringList) {
-                filteringList.filterParameter = action.filter
-                return [...stateCopy]
+                filteringList.filterParameter = specificAction.filter;
+                return [...state]; // Нужно создать новый массив для иммутабельности
             }
-            return stateCopy
+            return state;
         }
         default:
-            return state
+            return state;
     }
 }
 

@@ -6,6 +6,7 @@ import EditableSpan from './EditableSpan';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, Checkbox, IconButton } from '@mui/material';
 import TaskLine from './TaskLine';
+import { RequestStatusType } from './state/todolistsSlice';
 
 export type TaskArr = {
     id: string,
@@ -25,6 +26,7 @@ type TaskTitle = {
     changeTaskTitle: (tlId: string, taskId: string, title: string) => void
     filterParameter: FilterParameterType
     deleteList: (tlId: string) => void
+    entityStatus: RequestStatusType
 }
 
 const TaskManager = React.memo((props: TaskTitle) => {

@@ -2,6 +2,7 @@ import { v1 } from "uuid"
 
 import { TodolistsObjType } from "../AppWithRedux"
 import { AddTodolistActionType, DeleteTodolistActionType, tid1, tid2, } from "./todoLists-reducer"
+import { UnknownAction } from "redux"
 
 type DeleteTaskActionType = {
     type: "TASK-DELETE"
@@ -46,57 +47,76 @@ const initialState: TodolistsObjType = {
     ]
 }
 
-export const tasksReducer = (state: TodolistsObjType = initialState, action: ActionsType): TodolistsObjType => {
+export const tasksReducer = (state: TodolistsObjType = initialState, action: UnknownAction): TodolistsObjType => {
     switch (action.type) {
         case 'TASK-DELETE': {
-            const stateCopy = { ...state }
-            const listAfterRemovingTask = stateCopy[action.id_list].filter((t) => {
-                if (t.id === action.id_task) { return false }
-                return true
-            })
-            stateCopy[action.id_list] = listAfterRemovingTask
-            return stateCopy
+            // Используем type assertion 'as'
+            const specificAction = action as DeleteTaskActionType;
+            // Копируем только тот массив задач, который меняем
+            const tasksInList = state[specificAction.id_list];
+            const updatedTasks = tasksInList.filter(t => t.id !== specificAction.id_task);
+            // Возвращаем новый объект state с обновленным массивом задач
+            return {
+                ...state,
+                [specificAction.id_list]: updatedTasks
+            };
         }
         case 'TASK-ADD': {
-            const stateCopy = { ...state }
-            let newTask = { id: v1(), title: action.title, isDone: false }
-            stateCopy[action.id_list] = [...stateCopy[action.id_list], newTask]
-            return stateCopy
+            const specificAction = action as AddTaskActionType;
+            const newTask = { id: v1(), title: specificAction.title, isDone: false };
+            // Копируем нужный массив и добавляем новую задачу
+            const updatedTasks = [...state[specificAction.id_list], newTask];
+            return {
+                ...state,
+                [specificAction.id_list]: updatedTasks
+            };
         }
         case 'TASK-CHANGE-TITLE': {
-            let tasks = state[action.id_list]
-            state[action.id_list] = tasks
-                .map((t) => t.id === action.id_task
-                    ? { ...t, title: action.title }
-                    : t)
-            return { ...state }
+            const specificAction = action as ChangeTaskTitleActionType;
+            const tasksInList = state[specificAction.id_list];
+            const updatedTasks = tasksInList.map(t =>
+                t.id === specificAction.id_task
+                    ? { ...t, title: specificAction.title }
+                    : t
+            );
+            return {
+                ...state,
+                [specificAction.id_list]: updatedTasks
+            };
         }
         case 'TASK-CHANGE-STATUS': {
-            let tasks = state[action.id_list]
-            state[action.id_list] = tasks
-                .map((t) => t.id === action.id_task
-                    ? { ...t, isDone: action.isDone }
-                    : t)
-            return { ...state }
+            const specificAction = action as ChangeTaskStatusActionType;
+            const tasksInList = state[specificAction.id_list];
+            const updatedTasks = tasksInList.map(t =>
+                t.id === specificAction.id_task
+                    ? { ...t, isDone: specificAction.isDone }
+                    : t
+            );
+            return {
+                ...state,
+                [specificAction.id_list]: updatedTasks
+            };
         }
+        // Обработка экшенов из todoLists-reducer
         case 'LIST-ADD': {
-            const stateCopy = { ...state }
-
-            stateCopy[action.id_list] = []
-
-            return stateCopy
+            const specificAction = action as AddTodolistActionType;
+            // Добавляем пустой массив задач для нового списка
+            return {
+                ...state,
+                [specificAction.id_list]: []
+            };
         }
         case 'LIST-DELETE': {
-            const stateCopy = { ...state }
-
-            delete stateCopy[action.id]
-
-            return stateCopy
+            const specificAction = action as DeleteTodolistActionType;
+            const stateCopy = { ...state };
+            // Удаляем свойство (массив задач) для удаленного списка
+            delete stateCopy[specificAction.id];
+            return stateCopy;
         }
         default:
-            return state
+            return state;
     }
-}
+};
 
 export const deleteTaskAC = (id_list: string, id_task: string): DeleteTaskActionType => {
     return {
@@ -131,3 +151,7 @@ export const changeTaskStatusAC = (id_list: string, id_task: string, isDone: boo
         isDone: isDone
     }
 }
+
+
+//export { TodolistsObjType }
+

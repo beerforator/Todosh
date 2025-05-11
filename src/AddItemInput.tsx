@@ -39,6 +39,7 @@ const AddItemInput = React.memo((props: AddItemInputProps) => {
             setNewTaskTitle("")
             return
         }
+        
         props.addItem(newTaskTitle.trim())
         setNewTaskTitle("")
     }
