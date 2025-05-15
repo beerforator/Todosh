@@ -6,6 +6,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import AppWithRedux from './AppWithRedux';
 import { store } from './state/store';
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,7 +16,9 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <Provider store={store}>
-    <AppWithRedux />
+    <BrowserRouter>
+      <AppWithRedux />
+    </BrowserRouter>
   </Provider>
 );
 

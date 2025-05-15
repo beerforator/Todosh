@@ -22,7 +22,7 @@ const AddItemInput = React.memo((props: AddItemInputProps) => {
             setError(null)
         }
         
-        if (e.ctrlKey && e.key === 'Enter') {
+        if (e.key === 'Enter') {
             if (newTaskTitle.trim() === "") {
                 setError("Поле обязательно!")
                 setNewTaskTitle("")
