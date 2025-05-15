@@ -9,9 +9,9 @@ const dbHost = process.env.DB_HOST;
 const dbPassword = process.env.DB_PASSWORD;
 const dbPort = process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 5432;
 
-// if (!dbName || !dbUser || !dbHost || !dbPassword) {
-//  throw new Error('Database configuration environment variables are missing!');
-// }
+if (!dbName || !dbUser || !dbHost || !dbPassword) {
+ throw new Error('Database configuration environment variables are missing!');
+}
 
 const sequelize = new Sequelize(dbName, dbUser, dbPassword, {
  host: dbHost,
