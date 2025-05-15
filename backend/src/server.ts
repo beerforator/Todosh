@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 3000;
 
 const clientURL = process.env.CLIENT_URL
 const corsOptions = {
-    origin: clientURL || 'http://localhost'
+    origin: clientURL || 'http://localhost:3000'
 }
 
 app.use(cors(corsOptions));

@@ -11,7 +11,15 @@
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.15.6",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.37.7"
+    "sequelize-cli": "^6.6.2",
+    "sequelize": "^6.37.7",
+    "@types/bcryptjs": "^3.0.0",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/node": "^22.15.2",
+    "@types/pg": "^8.11.14",
+    "@types/sequelize": "^4.28.20"
   },
   "devDependencies": {
     "@types/bcryptjs": "^3.0.0",
