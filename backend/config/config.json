@@ -14,10 +14,13 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "postgres",
-    "password": "abcd",
-    "database": "todoshdb",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
+    "use_env_variable": "postgresql://todoshdb_user:uFpr23n2ptmbK2bsNvwwNpBmAByTLac2@dpg-d0j2areuk2gs739i56s0-a/todoshdb",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": { 
+        "require": true,
+        "rejectUnauthorized": false 
+      }
+    }
   }
 }

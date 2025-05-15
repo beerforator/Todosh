@@ -15,7 +15,12 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+const clientURL = process.env.CLIENT_URL
+const corsOptions = {
+    origin: clientURL || 'http://localhost'
+}
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // --- Подключение роутеров ---
