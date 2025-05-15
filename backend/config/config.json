@@ -14,7 +14,7 @@
     "dialect": "postgres"
   },
   "production": {
-    "use_env_variable": "postgresql://todoshdb_user:uFpr23n2ptmbK2bsNvwwNpBmAByTLac2@dpg-d0j2areuk2gs739i56s0-a/todoshdb",
+    "use_env_variable": "DATABASE_URL",
     "dialect": "postgres",
     "dialectOptions": {
       "ssl": { 
