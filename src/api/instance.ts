@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const token = localStorage.getItem('authToken');
 export const instance = axios.create({
-   baseURL: 'https://todosh-qpbi.onrender.com/api', // Базовый URL твоего API
+   baseURL: process.env.REACT_APP_API_URL, // Базовый URL твоего API
    headers: {
         // Устанавливаем заголовок Authorization, если токен есть
        ...(token ? { Authorization: `Bearer ${token}` } : {})
