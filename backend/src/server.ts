@@ -16,9 +16,15 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const clientURL = process.env.CLIENT_URL
+
 const corsOptions = {
-    origin: clientURL || 'http://localhost:3000'
-}
+  origin: clientURL || 'http://localhost:3000', // Разрешаем URL фронтенда
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Убедись, что OPTIONS неявно разрешен или явно добавлен
+  allowedHeaders: "Content-Type,Authorization", // Разрешаем нужные заголовки
+  credentials: true, // Если используешь куки (мы не используем для JWT в заголовке)
+  preflightContinue: false,
+  optionsSuccessStatus: 204 // Стандартный ответ на OPTIONS preflight
+};
 
 app.use(cors(corsOptions));
 app.use(express.json());
