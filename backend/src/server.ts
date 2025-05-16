@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 3000;
 const clientURL = process.env.CLIENT_URL
 
 const corsOptions = {
-  origin: clientURL || 'http://localhost:3000', // Разрешаем URL фронтенда
+  origin: clientURL, // Разрешаем URL фронтенда
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Убедись, что OPTIONS неявно разрешен или явно добавлен
   allowedHeaders: "Content-Type,Authorization", // Разрешаем нужные заголовки
   credentials: true, // Если используешь куки (мы не используем для JWT в заголовке)
