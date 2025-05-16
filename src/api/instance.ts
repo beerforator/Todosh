@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const token = localStorage.getItem('authToken');
 export const instance = axios.create({
-   baseURL: 'https://todo-list-web-service.onrender.com/api', // Базовый URL твоего API
+   baseURL: 'https://todosh-qpbi.onrender.com/api', // Базовый URL твоего API
    headers: {
         // Устанавливаем заголовок Authorization, если токен есть
        ...(token ? { Authorization: `Bearer ${token}` } : {})
